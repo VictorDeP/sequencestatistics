@@ -2,7 +2,7 @@
 DNA and protein probability calculators
 Author: Victor De Pillecyn
 Date: 21-01-2022
-Last update: 21-01-2022
+Last update: 18-05-2023
 A series of functions to calculate DNA and protein probabilities
 """
 from Bio.Align import substitution_matrices
@@ -105,29 +105,8 @@ def seqprobDNA(DNAseq, similarity = 1, equiprob=dict(zip(DNA_ALPHABET, [1/len(DN
 seqprobDNA('TGATTGACTATGCTTTACCG', 8/20, residufreq('CCCCCCGATAT'))
 seqprobDNA('ATCTCT', similarity = 0.5)
 
- def minseqprobDNA(DNAseq, minsimilarity = 0.5, equiprob=dict(zip(DNA_ALPHABET, [1/len(DNA_ALPHABET)]*len(DNA_ALPHABET)))):
-    """
-    Calculates probability of two DNA sequences sharing AT LEAST certain similarity by chance, with certain equiprobability of bases
-    Args:
-        DNAseq (string): DNA sequence
-        minsimilarity (integer): Decimal minimal similarity of two sequences
-        equiprob (dict): Dictionary with residu frequencies (can be obtained with residufreq(DNAseq))
-    Returns:
-        float: Probability of finding sequence with minsimilarity or more by chance
-    """
-    totalprobability = 0
-    if not re.search('[^ACTG]', DNAseq):
-        min_residue_match = round(len(DNAseq)*minsimilarity)
-        print(min_residue_match)
-        for similarity in range(minsimilarity, 1, 0.05): #NOT WORKING
-            totalprobability += seqprobDNA(DNAseq, similarity=1, equiprob)
-    else:
-        totalprobability = 'Not a DNA strand'
-    return totalprobability
 
-minseqprobDNA('ATCTCT')
-
-# Identical functions but for proteins
+# Identical function but for proteins
 
 def seqprobPROTEIN(PROTEINseq, similarity = 1, equiprob=dict(zip(PROTEIN_ALPHABET, [1/len(PROTEIN_ALPHABET)]*len(PROTEIN_ALPHABET)))):
     """
@@ -149,24 +128,4 @@ def seqprobPROTEIN(PROTEINseq, similarity = 1, equiprob=dict(zip(PROTEIN_ALPHABE
         totalprobability = 'Not a PROTEIN strand'
     return totalprobability
 
-seqprobPROTEIN('MQAMRCTLVP', 0.5)
-
-def minseqprobPROTEIN(PROTEINseq, minsimilarity = 0.5, equiprob=dict(zip(PROTEIN_ALPHABET, [1/len(PROTEIN_ALPHABET)]*len(PROTEIN_ALPHABET)))):
-    """
-    Calculates probability of two PROTEIN sequences sharing AT LEAST certain similarity by chance, with certain equiprobability of bases
-    Args:
-        PROTEINseq (string): PROTEIN sequence
-        similarity (integer): Decimal similarity of two sequences
-        equiprob (dict): Dictionary with residu frequencies (can be obtained with residufreq(PROTEINseq))
-    Returns:
-        float: Probability of finding sequence with minsimilarity or more by chance
-    """
-    totalprobability = 0
-    if not re.search('[^ARNDCQEGHILKMFPSTWYV]', PROTEINseq):
-        for similarity in arange(minsimilarity, 1, 0.05):
-            totalprobability += seqprobPROTEIN(PROTEINseq, similarity, equiprob)
-    else:
-        totalprobability = 'Not a PROTEIN strand'
-    return totalprobability
-
-minseqprobPROTEIN('MQAMRCTLVP', 0.5)
+#seqprobPROTEIN('MQAMRCTLVP', 0.5)
